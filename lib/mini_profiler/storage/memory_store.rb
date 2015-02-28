@@ -66,7 +66,7 @@ module Rack
         cleanup_cycle    = args.fetch(:cleanup_cycle)    { CLEANUP_CYCLE }
         t = CacheCleanupThread.new(cleanup_interval, cleanup_cycle, self) do |t|
           until Thread.current[:should_exit] do
-            self.sleepy_run
+            Thread.current.sleepy_run
           end
         end
         at_exit { t[:should_exit] = true }
